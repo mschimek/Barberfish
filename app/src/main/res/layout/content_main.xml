@@ -9,10 +9,16 @@
     tools:showIn="@layout/activity_main">
 
     <RelativeLayout
-        android:layout_width="368dp"
-        android:layout_height="495dp"
-        tools:layout_editor_absoluteY="0dp"
-        tools:layout_editor_absoluteX="0dp">
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        tools:layout_constraintTop_creator="1"
+        tools:layout_constraintRight_creator="1"
+        tools:layout_constraintBottom_creator="1"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        tools:layout_constraintLeft_creator="1"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
 
 
         <TextView
@@ -63,12 +69,13 @@
             android:layout_centerHorizontal="true"
             android:layout_centerVertical="true"
             android:columnCount="2"
-            android:rowCount="3">
+            android:rowCount="3"
+            android:scrollbarAlwaysDrawHorizontalTrack="false">
 
             <ImageView
                 android:id="@+id/imageView1"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
                 android:layout_column="0"
                 android:layout_row="0"
                 app:srcCompat="@android:drawable/sym_action_chat" />
@@ -78,13 +85,15 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_column="1"
+                android:layout_marginLeft="10dp"
+                android:layout_marginTop="10dp"
                 android:layout_row="0"
-                android:text="TextView" />
+                android:text="Wähle deine Nacht aus." />
 
             <ImageView
                 android:id="@+id/imageView2"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
                 android:layout_column="0"
                 android:layout_row="1"
                 app:srcCompat="@android:drawable/ic_menu_share" />
@@ -94,13 +103,15 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_column="1"
+                android:layout_marginLeft="10dp"
+                android:layout_marginTop="10dp"
                 android:layout_row="1"
-                android:text="TextView" />
+                android:text="Teile diese Nachricht mit Barberfish." />
 
             <ImageView
                 android:id="@+id/imageView3"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
                 android:layout_column="0"
                 android:layout_row="2"
                 app:srcCompat="@mipmap/ic_launcher" />
@@ -108,10 +119,12 @@
             <TextView
                 android:id="@+id/textView3"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_height="match_parent"
                 android:layout_column="1"
+                android:layout_marginLeft="10dp"
+                android:layout_marginTop="10dp"
                 android:layout_row="2"
-                android:text="TextView" />
+                android:text="Barberfish wandelt diese nun in Text um." />
 
         </GridLayout>
 
