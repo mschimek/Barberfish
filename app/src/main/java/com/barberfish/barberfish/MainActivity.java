@@ -15,6 +15,8 @@ import android.support.v7.widget.Toolbar;
 import android.view.View;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.GridLayout;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import com.android.volley.DefaultRetryPolicy;
@@ -42,14 +44,9 @@ public class MainActivity extends AppCompatActivity {
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
-        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
-        fab.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-                        .setAction("Action", null).show();
-            }
-        });
+
+
+
         Intent intent = getIntent();
         String action = intent.getAction();
         String type = intent.getType();
@@ -65,7 +62,7 @@ public class MainActivity extends AppCompatActivity {
                 ((TextView) findViewById(R.id.tvStatus)).setText("Intent wird nicht unterstützt");
             }
         } else {
-            ((TextView) findViewById(R.id.tvStatus)).setText("kein intent");
+            ((TextView) findViewById(R.id.tvStatus)).setText("Audiodatei mit der App teilen, um diese zu transkribieren");
         }
     }
 
@@ -124,13 +121,34 @@ public class MainActivity extends AppCompatActivity {
                 new Response.Listener<JSONObject>(){
                     @Override
                     public void onResponse(JSONObject response) {
-                        ((TextView) findViewById(R.id.tvStatus)).setText(response.toString());
+                        String transcript = "";
+                        Double confidence = 0.0;
+                        try {
+                            transcript = response.getJSONArray("results")
+                                    .getJSONObject(0).getJSONArray("alternatives")
+                                    .getJSONObject(0).getString("transcript");
+                            confidence = response.getJSONArray("results")
+                                    .getJSONObject(0).getJSONArray("alternatives")
+                                    .getJSONObject(0).getDouble("confidence") * 100;
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
+                        ((TextView) findViewById(R.id.tvStatus)).setText(transcript);
+                        findViewById(R.id.progressBar).setVisibility(View.GONE);
+
+                        findViewById(R.id.tvConfidence).setVisibility(View.VISIBLE);
+                        ProgressBar progressBar = (ProgressBar) findViewById(R.id.pbConfidence);
+                        progressBar.setVisibility(View.VISIBLE);
+                        progressBar.setIndeterminate(false);
+                        progressBar.setMax(100);
+                        progressBar.setProgress(confidence.intValue());
                     }
                 },
                 new Response.ErrorListener() {
                     @Override
                     public void onErrorResponse(VolleyError error) {
                         ((TextView) findViewById(R.id.tvStatus)).setText("error: " + error.toString());
+                        findViewById(R.id.progressBar).setVisibility(View.GONE);
                     }
                 }
         );
@@ -148,10 +166,20 @@ public class MainActivity extends AppCompatActivity {
             return;
         }
 
-        ((TextView) findViewById(R.id.tvStatus)).setText(intent.toString());
         int res = 1;
-        int permissionCheck = ContextCompat.checkSelfPermission(this, Manifest.permission.READ_EXTERNAL_STORAGE);
-        ActivityCompat.requestPermissions(this, new String[] {Manifest.permission.READ_EXTERNAL_STORAGE}, res);
+        //int permissionCheck = ContextCompat.checkSelfPermission(this, Manifest.permission.READ_EXTERNAL_STORAGE);
+        //ActivityCompat.requestPermissions(this, new String[] {Manifest.permission.READ_EXTERNAL_STORAGE}, res);
+
+
+        findViewById(R.id.glDescription).setVisibility(View.GONE);
+        findViewById(R.id.progressBar).setVisibility(View.VISIBLE);
+        findViewById(R.id.tvStatus).setVisibility(View.VISIBLE);
+        findViewById(R.id.tvHeader).setVisibility(View.VISIBLE);
+
+
+
+        //((TextView) findViewById(R.id.tvStatus)).setText(intent.toString());
+
 
         sendHTTPRequest(audioUri);
 

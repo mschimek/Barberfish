@@ -75,4 +75,6 @@
 
     <string name="pref_title_vibrate">Vibrate</string>
     <string name="pref_api_key">API Schlüssel</string>
+    <string name="message_progessinfo">Deine Nachricht wird umgewandelt …</string>
+    <string name="confidence">Konfidenz</string>
 </resources>
